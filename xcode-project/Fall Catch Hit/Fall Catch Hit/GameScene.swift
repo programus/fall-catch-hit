@@ -10,10 +10,15 @@ import SpriteKit
 import CoreMotion
 
 class GameScene: SKScene {
+  let moveUp = "MoveUp"
   let panel = BackPanel()
+  
   var balls = [Ball]()
   var motionManager:CMMotionManager!
   var g:CGFloat!
+  var initSpeed = CGFloat(1.0)
+  var startTime: CFTimeInterval = 0
+  var lastUpdateTime: CFTimeInterval = 0
   
   override func didMoveToView(view: SKView) {
     /* Setup your scene here */
@@ -21,7 +26,8 @@ class GameScene: SKScene {
     self.addChild(panel)
     panel.position = CGPoint(x: 0, y: 0)
 //    panel.fillBoard()
-    panel.runAction(SKAction.repeatActionForever(SKAction.moveBy(CGVectorMake(0, CGFloat(Board.height)), duration: 1)))
+    panel.runAction(SKAction.repeatActionForever(SKAction.moveBy(CGVectorMake(0, CGFloat(Board.height)), duration: 1)), withKey: moveUp)
+    panel.speed = initSpeed
   }
   
   override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -37,9 +43,29 @@ class GameScene: SKScene {
   override func update(currentTime: CFTimeInterval) {
     /* Called before each frame is rendered */
     updateGravity()
+    updateSpeed(deltaTime(currentTime))
     panel.update()
     for ball in balls {
       ball.update()
+    }
+  }
+  
+  func deltaTime(currentTime: CFTimeInterval) -> CFTimeInterval {
+    var delta: CFTimeInterval
+    if startTime == 0 {
+      delta = 0
+      startTime = currentTime
+      lastUpdateTime = currentTime
+    } else {
+      delta = currentTime - startTime
+      lastUpdateTime = currentTime
+    }
+    return delta
+  }
+  
+  func updateSpeed(delta: CFTimeInterval) {
+    if let action = panel.actionForKey(moveUp) {
+      action.speed = self.initSpeed + Const.BoardMaxSpeed - Const.BoardMaxSpeed * pow(2, CGFloat(delta) / -Const.BoardHalfAccTime)
     }
   }
   
