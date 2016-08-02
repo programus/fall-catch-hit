@@ -20,7 +20,10 @@ struct PhysicsCategory : OptionSetType {
 
 struct Const {
   static let ScreenSize = UIScreen.mainScreen().bounds.size
+  
   static let BallRadius = Const.ScreenSize.width * 0.03
+  
+  static let BoardMinSpacing = CGFloat(Board.height) + Const.BallRadius * 2
   static let BoardHalfAccTime = CGFloat(600)
   static let BoardMinSpeed = CGFloat(1)
   static let BoardMaxSpeed = CGFloat(40)

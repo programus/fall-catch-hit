@@ -12,7 +12,7 @@ import SpriteKit
 class BackPanel : SKNode {
   static var gap:CGFloat {
     get {
-     return CGFloat(Board.height * (2.5 + drand48() * 8))
+     return CGFloat(Board.height * (1.0 + drand48() * 8)) + Const.BoardMinSpacing
     }
   }
   static let top = Const.ScreenSize.height

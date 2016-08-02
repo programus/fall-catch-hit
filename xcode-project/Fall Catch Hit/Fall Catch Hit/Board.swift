@@ -12,7 +12,7 @@ import SpriteKit
 class Board : SKNode {
   static let height = Double(Const.ScreenSize.height / 40.0)
   static let minWidth = Double(Board.height * 2.0)
-  static let maxWidth = Double(Const.ScreenSize.width * 0.8)
+  static let maxWidth = Double(Const.ScreenSize.width * 0.6)
   static let edgeWidth = 10.1
   
   let body:SKShapeNode!
